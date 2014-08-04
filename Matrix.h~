@@ -1,0 +1,108 @@
+//
+//  Matrix.h
+//  Matrices
+//
+//  Created by Akanksha Verma on 2/11/13.
+//  Copyright (c) 2013 Akanksha Verma. All rights reserved.
+//
+
+#ifndef __Matrices__Matrix__
+#define __Matrices__Matrix__
+
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+template <typename T>
+class Matrix {
+    
+public:
+    
+    Matrix(){
+        Columns=Rows=0; //default Constructor
+    };
+    
+    Matrix(int rows,int cols){ // Constructor takes in parameters
+        int Columns = cols;
+        int Rows = rows;
+       
+        //if(cols>0 && rows>0)
+            Data=new T*[Rows];
+            
+            for ( int i = 0; i < Rows; i++ )
+            {
+                Data[i] = new T[Columns];
+            }
+            
+        for ( int c = 0; c < Rows; ++c)
+        {
+            for( int d = 0; d < Columns; ++d)
+            {
+                Data[c][d] = 0;
+            }
+        }
+        
+    };
+    
+    ~Matrix(){  //destructor
+          Data = (T**)malloc(0);
+        for (int i=0;i<Rows; ++i) {
+                delete [] Data[i];
+        }
+          delete [] Data;
+    };
+    
+    Matrix(const Matrix &another){ //copy constructor
+        Rows = another.numrows();
+        Columns = another.numcols();
+        Data = new T*[Rows];
+        for ( int i = 0; i < Rows; i++ )
+        {
+            Data[i] = new T[Columns];
+        }
+        for(int i = 0; i < Rows;i++){
+            for (int k=0 ; k<Columns;k++){
+                Data[i][k]=another[i][k];
+            }
+        }
+
+    };
+    
+    int numrows(){  //accessor function returns Rows
+        return Rows;
+    };
+    
+    int numcols(){ //accessor function returns Columns
+        return Columns;
+    };
+    
+    //overloading output operator
+    friend Matrix<T> &operator<<( std::ostream &output,const Matrix &other ){
+      
+     
+        //cout<<"rows"<<other.Rows;
+        
+    };
+    
+    //overloading input operator
+    friend Matrix<T> operator>>(istream &input, Matrix &other){
+        
+        input>>other.Rows>>other.Columns;
+        cout<<other.Rows<<" "<<other.Columns;
+            for (int i = 0; i < other.Rows; i++)    {
+                for(int j = 0;j<other.Columns;j++){
+//                    input>>Data[i][j];
+                }
+            }
+       // cout<<other.Rows;
+    };
+   
+    
+
+private:
+    
+    int Columns;
+    int Rows;
+    T **Data;
+};
+#endif /* defined(__Matrices__Matrix__) */
